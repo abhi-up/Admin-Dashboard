@@ -10,23 +10,22 @@ type Props = {
 }
 
 const DataTable = (props: Props) => {
-    const queryClient = useQueryClient()
+    // TEST THE API
 
-    const mutation = useMutation(
-        (id: number) => {
+    const queryClient = useQueryClient()
+    const mutation = useMutation({
+        mutationFn: (id: number) => {
             return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
                 method: "delete",
             })
         },
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries([`all${props.slug}`])
-            },
-        }
-    )
+        onSuccess: () => {
+            queryClient.invalidateQueries([`all${props.slug}`])
+        },
+    })
 
     const handleDelete = (id: number) => {
-        // Delete the item
+        //delete the item
         mutation.mutate(id)
     }
 
